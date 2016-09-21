@@ -17,10 +17,15 @@ class copyImgClass
 	public function __construct()
 	{
 		echo "Jedziemy z tym koksem ..." . PHP_EOL;
+
 	}
 
 	public function goWork()
 	{
+		// Validation
+		$this->checkInputDir();
+		$this->checkOutputDir();
+
 		$this->setFilesList();
 		$this->mainLoop();
 	}
@@ -145,5 +150,21 @@ class copyImgClass
         }
 
         return $bytes;
-}
+	}
+
+	private function checkInputDir()
+	{
+		if (!is_dir($this->inputDir)) {
+			echo "Input dir is not exist!" . PHP_EOL; 
+			exit();
+		}
+	}
+
+	private function checkOutputDir()
+	{
+		if (!is_dir($this->outputDir)) {
+			echo "Output dir is not exist!" . PHP_EOL;
+			exit();
+		}
+	}
 }
