@@ -17,7 +17,6 @@ class copyImgClass
 	public function __construct()
 	{
 		echo "Jedziemy z tym koksem ..." . PHP_EOL;
-
 	}
 
 	public function goWork()
@@ -44,8 +43,8 @@ class copyImgClass
 
 	private function setFilesList()
 	{
-		// glob("img/thumb/*.{jpg,png,gif}", GLOB_BRACE);
-		$this->filesList = glob($this->inputDir . "*.png");
+		// $this->filesList = glob($this->inputDir . "*.png");
+		$this->filesList = glob($this->inputDir . "*.{jpg,png}", GLOB_BRACE);
 	}
 
 	private function mainLoop()
@@ -59,6 +58,9 @@ class copyImgClass
 
 	private function resizeImg($inputImg, $outputImg)
 	{
+		// Find file extension
+		$ext = pathinfo($inputImg, PATHINFO_EXTENSION);
+
 		list($width, $height) = getimagesize($inputImg);
 
 		$newwidth = self::WIDTH;
@@ -68,7 +70,15 @@ class copyImgClass
 
 		// Load
 		$thumb = imagecreatetruecolor($newwidth, $newheight);
-		$source = imagecreatefrompng($inputImg);
+
+		if ($ext === "jpg") {
+			$source  = imagecreatefromjpeg($inputImg);
+		} else if ($ext === "png") {
+			$source = imagecreatefrompng($inputImg);
+		} else {
+			echo "Nieprawidłowy format!" . PHP_EOL;
+			exit();
+		}
 
 		// Resize
 		imagecopyresized($thumb, $source, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
@@ -77,7 +87,11 @@ class copyImgClass
 		// imagepng($thumb);
 		
 		// Save
-		imagepng($thumb, $outputImg);
+		if ($ext === "jpg") {
+			imagejpeg($thumb, $outputImg);
+		} else if ($ext === "png") {
+			imagepng($thumb, $outputImg);
+		}
 
 		print_r("- po " . $this->getFileSize($outputImg) . " (" . $newwidth . "x" . $newheight . ")");
 		echo PHP_EOL;
