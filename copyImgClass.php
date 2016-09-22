@@ -42,19 +42,10 @@ class copyImgClass
 		$this->outputDir = $dir;
 	}
 
-	public function	copyImg()
-	{
-
-	}
-
 	private function setFilesList()
 	{
-		// $files = scandir($this->inputDir);
-
 		// glob("img/thumb/*.{jpg,png,gif}", GLOB_BRACE);
 		$this->filesList = glob($this->inputDir . "*.png");
-
-		// print_r($files);
 	}
 
 	private function mainLoop()
@@ -66,19 +57,6 @@ class copyImgClass
 		}
 	}
 
-	// TODO: wywal
-	private function filterFileList($fileList)
-	{
-		foreach ($fileList as &$file) {
-			// if ($file)
-		}
-		unset($file);
-
-		// $newList = [];
-
-		return $fileList;
-	}
-
 	private function resizeImg($inputImg, $outputImg)
 	{
 		list($width, $height) = getimagesize($inputImg);
@@ -87,7 +65,6 @@ class copyImgClass
 		$newheight = $this->getProportionalHeight($width, $height);
 
 		print_r(basename($inputImg) . ": przed " . $this->getFileSize($inputImg) . " (" . $width . "x" . $height . ") ");
-		// exit;
 
 		// Load
 		$thumb = imagecreatetruecolor($newwidth, $newheight);
@@ -95,8 +72,6 @@ class copyImgClass
 
 		// Resize
 		imagecopyresized($thumb, $source, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
-
-		// imagesavealpha($thumb, true);
 
 		// Output if use in fly
 		// imagepng($thumb);
