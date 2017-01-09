@@ -1,5 +1,5 @@
 # ImgResizer
-Klasa kopiuje obrazki z podanego katalogu do innego i zmienia ich rozdzielczość
+Klasa kopiuje obrazki z podanego katalogu do innego i zmienia ich rozdzielczość w locie
 
 ## How to use
 ### Create file run.php
